@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Taken from John's code
+# Code taken from https://github.com/gregbanks/python-tabulate
 
 """Pretty-print tabular data."""
 

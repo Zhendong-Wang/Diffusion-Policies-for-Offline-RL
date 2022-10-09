@@ -1,3 +1,6 @@
+# Copyright 2022 Twitter, Inc and Zhendong Wang.
+# SPDX-License-Identifier: Apache-2.0
+
 import argparse
 import gym
 import numpy as np
