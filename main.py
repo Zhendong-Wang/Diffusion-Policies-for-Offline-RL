@@ -122,12 +122,12 @@ def train_agent(env, state_dim, action_dim, max_action, device, output_dir, args
     # Model Selection: online or offline
     scores = np.array(evaluations)
     if args.ms == 'online':
-        best_id = np.argsort(scores[:, 2])
-        best_res = {'model selection': args.ms, 'epoch': scores[best_id][-1],
-                    'best normalized score avg': scores[best_id][2],
-                    'best normalized score std': scores[best_id][3],
-                    'best raw score avg': scores[best_id][0],
-                    'best raw score std': scores[best_id][1]}
+        best_id = np.argmax(scores[:, 2])
+        best_res = {'model selection': args.ms, 'epoch': scores[best_id, -1],
+                    'best normalized score avg': scores[best_id, 2],
+                    'best normalized score std': scores[best_id, 3],
+                    'best raw score avg': scores[best_id, 0],
+                    'best raw score std': scores[best_id, 1]}
         with open(os.path.join(output_dir, f"best_score_{args.ms}.txt"), 'w') as f:
             f.write(json.dumps(best_res))
     elif args.ms == 'offline':
