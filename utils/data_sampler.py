@@ -10,17 +10,17 @@ import numpy as np
 class Data_Sampler(object):
 	def __init__(self, data, device, reward_tune='no'):
 		
-		self.state = torch.from_numpy(data['observations']).float()
-		self.action = torch.from_numpy(data['actions']).float()
-		self.next_state = torch.from_numpy(data['next_observations']).float()
-		reward = torch.from_numpy(data['rewards']).view(-1, 1).float()
-		self.not_done = 1. - torch.from_numpy(data['terminals']).view(-1, 1).float()
+		self.device = device
+		
+		self.state = torch.from_numpy(data['observations']).float().to(device)
+		self.action = torch.from_numpy(data['actions']).float().to(device)
+		self.next_state = torch.from_numpy(data['next_observations']).float().to(device)
+		reward = torch.from_numpy(data['rewards']).view(-1, 1).float().to(device)
+		self.not_done = 1. - torch.from_numpy(data['terminals']).view(-1, 1).float().to(device)
 
 		self.size = self.state.shape[0]
 		self.state_dim = self.state.shape[1]
 		self.action_dim = self.action.shape[1]
-
-		self.device = device
 
 		if reward_tune == 'normalize':
 			reward = (reward - reward.mean()) / reward.std()
@@ -38,11 +38,11 @@ class Data_Sampler(object):
 		ind = torch.randint(0, self.size, size=(batch_size,))
 
 		return (
-			self.state[ind].to(self.device),
-			self.action[ind].to(self.device),
-			self.next_state[ind].to(self.device),
-			self.reward[ind].to(self.device),
-			self.not_done[ind].to(self.device)
+			self.state[ind],
+			self.action[ind],
+			self.next_state[ind],
+			self.reward[ind],
+			self.not_done[ind]
 		)
 
 
